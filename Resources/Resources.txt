@@ -1,0 +1,8 @@
+Text Books:
+1. Database System Concepts
+Authors: Abraham Silberschatz, Henry F. Korth, S. Sudarshan
+Edition: 7th
+Publication Year: 2020
+Publisher: McGraw-Hill
+ISBN: 978-0-07-802215-9
+Web: http://www.db-book.com
