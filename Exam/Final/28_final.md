@@ -634,32 +634,104 @@ Note: A more detailed analysis might further reduce this set, but this represent
 
 **Answer:**
 
-The original definition of 3NF states that a relation R is in 3NF if, for every nontrivial functional dependency X → A in R⁺, either:
-1. X is a superkey, or
-2. A is a prime attribute (part of some candidate key)
+# ✅ Equivalence of Original and New Definitions of 3NF
 
-The new definition states that R is in 3NF if there are no nontrivial attributes A that are transitively dependent on a key, where transitive dependency is defined as: A is transitively dependent on α if α → β, β → A, and β ↛ α, where A is not in α or β.
+In relational database design, the **Third Normal Form (3NF)** can be defined in two ways:
 
-To show equivalence, I need to prove that:
-1. If R satisfies the original definition, it satisfies the new definition.
-2. If R satisfies the new definition, it satisfies the original definition.
+---
 
-**Part 1: Original → New**
-Suppose R satisfies the original 3NF definition but violates the new definition.
+### 📘 Original Definition of 3NF
 
-If R violates the new definition, there exists an attribute A that is transitively dependent on a key K. This means K → β, β → A, and β ↛ K, where A is not in K or β.
+A relation `R` is in **3NF** if, for every **nontrivial functional dependency** `X → A` in `R⁺`, **either**:
 
-Since β → A and β is not a superkey (as β ↛ K), by the original 3NF definition, A must be a prime attribute. But if A is part of any candidate key, then either:
-- A is part of K, which contradicts our assumption, or
-- A is part of another candidate key, which means β must functionally determine part of a candidate key, making β a superkey, which contradicts β ↛ K.
+1. `X` is a **superkey**, or  
+2. `A` is a **prime attribute** (i.e., part of some candidate key).
 
-Therefore, R cannot violate the new definition while satisfying the original one.
+---
 
-**Part 2: New → Original**
-Suppose R satisfies the new 3NF definition but violates the original definition.
+### 📗 New Definition of 3NF
 
-If R violates the original definition, there exists a nontrivial FD X → A where X is not a superkey and A is not a prime attribute.
+A relation `R` is in **3NF** if **no nontrivial attribute A** is **transitively dependent** on a key.
 
-If X is not a superkey, there must exist a key K such that K → X (since keys determine all attributes). Since X → A and K → X, we have K → X → A, which means A is transitively dependent on K (assuming X ↛ K, which must be true if X is not a superkey).
+A **transitive dependency** is defined as:
 
-Since A is not a prime attribute (
+> A is transitively dependent on α if:  
+> - α → β  
+> - β → A  
+> - β ↛ α  
+> - and A ∉ α ∪ β
+
+---
+
+## ✅ Proof of Equivalence
+
+We will prove **both directions**:
+
+---
+
+### 🔁 Part 1: Original ⇒ New
+
+**Assume:** R satisfies the **original definition**.  
+**Goal:** Show that it also satisfies the **new definition**.
+
+**Contradiction Setup:** Suppose R violates the **new definition**.  
+Then there exists a transitive dependency:  
+- A key `K → β`,  
+- `β → A`,  
+- `β ↛ K`,  
+- and `A ∉ K ∪ β`.
+
+Now, consider `β → A`:
+
+- `β` is **not a superkey** (`β ↛ K`)  
+- `A` must be a **prime attribute** by the **original 3NF definition**.
+
+But if `A` is a prime attribute, it must be in some **candidate key**.
+
+Two possibilities:
+1. `A ∈ K` → Contradicts `A ∉ K`
+2. `A` is in another candidate key → Then `β` determines part of a key, which makes `β` a superkey → Contradiction (`β ↛ K`)
+
+🚫 Therefore, contradiction arises — the assumption that R violates the new definition is **false**.  
+✅ So, R must satisfy the **new definition**.
+
+---
+
+### 🔁 Part 2: New ⇒ Original
+
+**Assume:** R satisfies the **new definition**.  
+**Goal:** Show that it also satisfies the **original definition**.
+
+**Contradiction Setup:** Suppose R violates the **original definition**.
+
+Then there exists a **nontrivial FD**:  
+- `X → A`,  
+- `X` is **not a superkey**,  
+- `A` is **not a prime attribute**.
+
+Since `X` is not a superkey, a **key K** must exist such that:  
+- `K → X`
+
+Now:  
+- `K → X`  
+- `X → A`  
+- Therefore: `K → A`
+
+Also, since:
+- `X ↛ K` (because `X` is not a superkey),  
+- and `A ∉ X ∪ K`,  
+→ this forms a **transitive dependency** of `A` on `K`.
+
+But this **violates the new 3NF definition**, which we assumed is satisfied.
+
+🚫 Contradiction!  
+✅ So, R must satisfy the **original definition**.
+
+---
+
+## 🎉 Conclusion
+
+The two definitions of **Third Normal Form (3NF)** are **logically equivalent**:
+
+- If a relation satisfies the **original definition**, it satisfies the **new one**.
+- If it satisfies the **new definition**, it satisfies the **original one**.
