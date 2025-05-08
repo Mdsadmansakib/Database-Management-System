@@ -43,13 +43,16 @@ iii. Draw an E–R diagram for the above relational schema and indicate the key 
 
 i.
 ```sql
-UPDATE company
-SET city = 'Newtown'
-WHERE branch_name = (
-    SELECT branch_name
-    FROM works
-    WHERE ID = '12345'
-);
+-- First find a branch in Newtown (assuming branch_name is unique)
+-- Then update both the branch_name in works and ensure referential integrity
+UPDATE works
+SET branch_name = (
+    SELECT branch_name 
+    FROM company 
+    WHERE city = 'Newtown'
+    LIMIT 1
+)
+WHERE ID = '12345';
 ```
 
 ii.
