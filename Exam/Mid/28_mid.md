@@ -1,6 +1,6 @@
 
 # DBMS Previous Year Questions – Full Answer Set
-Credit: https://github.com/Abs-Futy7/Database-Management-System/blob/main/pyq/incourse/DBMS_Questions_Full_README.md
+
 ---
 
 ## **Q1 (a)**
