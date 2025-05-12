@@ -32,25 +32,113 @@
 
 ## Keys in Relational Model
 
-### 1. Superkey
-- Set of attributes that uniquely identify a tuple
-- Can contain extra attributes
-- Example: In instructor relation, {ID} or {ID, name} are superkeys
 
-### 2. Candidate Key
-- Minimal superkey (no subset is a superkey)
-- Potential primary key
-- Example: {ID} or {name, dept_name}
+# 🔑 Key Concepts in the Relational Model
 
-### 3. Primary Key
-- Chosen candidate key to identify tuples
-- Should rarely change
-- Typically underlined in schema
+Understanding keys is essential to relational databases, as they enforce data integrity, enable identification, and define relationships between tables.
 
-### 4. Foreign Key
-- Primary key of another relation referenced in a relation
-- Establishes relationships between relations
-- Enforces referential integrity
+---
+
+## 1. 🧷 Superkey
+
+### 📌 Definition:
+A **superkey** is a set of one or more attributes that **uniquely identifies each tuple** in a relation.
+
+### ✅ Properties:
+- May include extra, unnecessary attributes.
+- Any **superset** of a superkey is also a superkey.
+
+### 🔍 Formal Definition:
+Let `R` be the set of attributes in the relation schema `r`, and `K ⊆ R`.  
+`K` is a superkey if:
+> For all tuples `t₁` and `t₂` in `r`, if `t₁ ≠ t₂` then `t₁[K] ≠ t₂[K]`.
+
+### 🧪 Examples:
+- In `instructor(ID, name, dept_name, salary)`:
+  - `{ID}` ✅
+  - `{ID, name}` ✅ (superkey, not minimal)
+  - `{name}` ❌ (names may not be unique)
+
+- In `classroom(building, room_number, capacity)`:
+  - `{building, room_number}` ✅
+
+---
+
+## 2. 🧷 Candidate Key
+
+### 📌 Definition:
+A **candidate key** is a **minimal superkey**. It uniquely identifies tuples, and removing any attribute would make it non-unique.
+
+### ✅ Properties:
+- No proper subset is a superkey.
+- There may be **multiple** candidate keys.
+
+### 🧪 Examples:
+- In `instructor`:
+  - `{ID}` ✅
+  - `{name, dept_name}` ✅ (if combination is unique)
+  - `{ID, name}` ❌ (not minimal)
+
+- In `classroom`:
+  - `{building, room_number}` ✅
+
+---
+
+## 3. 🏷️ Primary Key
+
+### 📌 Definition:
+A **primary key** is a candidate key selected by the designer to **uniquely identify tuples** in a table.
+
+### ✅ Properties:
+- Must be **unique** and **not null**.
+- **Only one** primary key per table.
+- Should be stable and rarely change.
+
+### 🧪 Examples:
+- `instructor(ID, ...)`: `{ID}` is the primary key ✅
+- `classroom(building, room_number, ...)`: `{building, room_number}` ✅
+
+### 📘 Note:
+- **Primary Key ⊆ Candidate Key ⊆ Superkey**
+- Typically **underlined** in schema definitions.
+- Choose wisely (e.g., SSN, student ID, not names).
+
+---
+
+## 4. 🔗 Foreign Key
+
+### 📌 Definition:
+A **foreign key** is an attribute (or set) in one relation that **references the primary key** of another relation.
+
+### ✅ Properties:
+- Enforces **referential integrity**.
+- Ensures the value exists in the referenced table.
+
+### 🧪 Example:
+- In `instructor(dept_name)`, referencing `department(dept_name)`:
+```sql
+FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+```
+
+If `ta` is a tuple in `instructor`, and `tb` is a tuple in `department`,  
+then:
+> `ta.dept_name = tb.dept_name`
+
+---
+
+## 🧩 Summary Table
+
+| Concept        | Description                                      | Example                             |
+|----------------|--------------------------------------------------|-------------------------------------|
+| **Superkey**   | Uniquely identifies tuples (may have extra attrs)| `{ID}`, `{ID, name}`                |
+| **Candidate Key** | Minimal superkey                                 | `{ID}`, `{name, dept_name}`         |
+| **Primary Key**   | Chosen candidate key                             | `{ID}`                              |
+| **Foreign Key**   | Refers to primary key in another relation        | `instructor.dept_name → department` |
+
+---
+
+_Source: Database System Concepts, 7th Ed. by Silberschatz, Korth, Sudarshan_
+
 
 ## Relational Query Languages
 
