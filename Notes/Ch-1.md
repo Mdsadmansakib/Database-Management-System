@@ -117,7 +117,7 @@ A data model is a collection of conceptual tools for describing:
 
 ### 3.2 Levels of Abstraction
 
-abstraction_md_content = """
+
 # 📘 Levels of Abstraction in Database Systems
 
 Understanding the different levels of abstraction is essential for grasping how database systems manage and present data efficiently and securely. This model breaks down the system into three main levels:
@@ -153,44 +153,46 @@ CREATE TABLE instructor (
   dept_name  VARCHAR(20),
   salary     NUMERIC(8,2)
 );
-This defines what data exists, not how it's stored on disk.
+```
 
-🔸 3. View Level (Highest Level of Abstraction)
-Provides user-specific views of the database.
+> This defines *what* data exists, not how it's stored on disk.
 
-Simplifies interaction by showing only relevant data to different users.
+---
 
-Enables data hiding and security by limiting access to certain columns or rows.
+## 🔸 3. View Level (Highest Level of Abstraction)
 
-Multiple views can be created for a single database.
+- Provides **user-specific views** of the database.
+- Simplifies interaction by showing only **relevant data** to different users.
+- Enables **data hiding** and **security** by limiting access to certain columns or rows.
+- Multiple views can be created for a single database.
 
-Example:
+**Example**:
+> A university clerk should see only student names and departments, not grades or financial info:
 
-A university clerk should see only student names and departments, not grades or financial info:
-
-sql
-Always show details
-
-Copy
+```sql
 CREATE VIEW student_view AS
 SELECT name, dept_name FROM student;
-This view hides sensitive information like grades, enforcing access control.
+```
 
-🧩 Summary
-Level	Description	Example	User Type
-Physical	How data is stored in files, indexes	B+ tree for indexing	System developer
-Logical	What data is stored and relationships	CREATE TABLE statements	DBA, designer
-View	Subset of data for specific user groups	CREATE VIEW student_view	End users
+> This view hides sensitive information like grades, enforcing **access control**.
 
-🔐 Use of Views for Security
-Views help restrict access to certain parts of the database.
+---
 
-Example for access control:
+## 🧩 Summary
 
-sql
-Always show details
+| Level         | Description                              | Example                     | User Type            |
+|---------------|------------------------------------------|-----------------------------|----------------------|
+| **Physical**  | How data is stored in files, indexes      | B+ tree for indexing        | System developer     |
+| **Logical**   | What data is stored and relationships     | `CREATE TABLE` statements   | DBA, designer        |
+| **View**      | Subset of data for specific user groups   | `CREATE VIEW student_view`  | End users            |
 
-Copy
+---
+
+## 🔐 Use of Views for Security
+
+- Views help restrict access to certain parts of the database.
+- Example for access control:
+```sql
 -- View for clerks
 CREATE VIEW clerk_view AS
 SELECT ID, name FROM student;
@@ -198,7 +200,14 @@ SELECT ID, name FROM student;
 -- View for admin
 CREATE VIEW admin_view AS
 SELECT * FROM instructor;
+```
+
 Only users granted access to a view can query the data within it.
+
+---
+
+_Source: Database System Concepts, 7th Ed. by Silberschatz, Korth, Sudarshan_
+
 
 ### 3.3 Instances and Schemas
 - **Instance**: The collection of information in the database at a particular moment
